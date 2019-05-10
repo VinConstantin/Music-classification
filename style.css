@@ -1,0 +1,16 @@
+.quantite{
+    font-size: 15pt;
+    padding-right: 10px;
+    padding-left: 10px; 
+}
+
+.topPadding{
+    padding-top: 40px;
+}
+
+.hidden{
+    display: none;
+    min-width: 100%
+}
+
+
