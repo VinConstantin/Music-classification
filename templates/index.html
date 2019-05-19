@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">{{ title }}</h1>
+        <p>Cette application est crée à l'aide d'un serveur écrit en python utilisant flask.</p>
+        <p>La classification de musique est faite avec l'utilisation de l'api de Spotify pour obtenir les caractéristiques de musique</p>
+        <p>L'algorithme est fait à partir d'un KNN (K-Nearest Neighbors) fait avec la librairie scikit-learn</p>
+      </div>  
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header">Classification</h5>
+            <div class="card-body">
+              <h5 class="card-title">Veuillez ércire le nom de la chanson</h5>
+              <div class="form-group">
+                <input type="text" class="form-control" name="titreChanson" id="titreChanson" aria-describedby="helpId" placeholder="Titre">
+                <br/>
+                <button type="button" onclick="Classifier();" id="search" name="search" class="btn btn-primary"><i class="fas fa-search"></i> Classifier</button>
+
+                <script>
+                 function Classifier(){
+                   let titre = document.getElementById("titreChanson").value
+                   let url = `/getGenre/${titre}`
+                   let xhr = new XMLHttpRequest();
+                   xhr.responseType = 'text';
+                    xhr.open('GET', url);
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            //Success
+                            let genre = xhr.response;
+                            document.getElementById("resultSuccess").innerHTML = `Le genre de '${titre}' est : ${genre}!`;
+                            hide(document.getElementById("alertError"));
+                            show(document.getElementById("alertSuccess"));
+                        }
+                        else {
+                          //Error
+                          document.getElementById("resultError").innerHTML = `Impossible de trouver une chanson nommé : ${titre}`;
+                            hide(document.getElementById("alertSuccess"));
+                            show(document.getElementById("alertError"));
+                        }
+                    };
+                    xhr.send();          
+                 }
+                 
+                 // Show an element
+                var show = function (elem) {
+                  elem.style.display = 'block';
+                };
+
+                // Hide an element
+                var hide = function (elem) {
+                  elem.style.display = 'none';
+                };
+                </script>
+              <br/>
+              <br/>
+              <br/>
+              <div id="alertSuccess" class="alert alert-success" style="display: none" role="alert">
+                <p id="resultSuccess"></p>
+              </div>
+              <div id="alertError" class="alert alert-danger" style="display: none" role="alert">
+                  <p id="resultError"></p>
+                </div>
+              </div>
+          </div>
+          </div>
+          <br/>
+      <div class="row">
+        <div class="col-md-4">
+          <h2>scikit-learn</h2>
+          <img height="100vh" src="https://scikit-learn.org/stable/_images/scikit-learn-logo-notext.png" alt="">
+          <br/>
+          <p>Scikit-learn est une bibliothèque libre Python destinée à l'apprentissage automatique. 
+            Elle est développée par de nombreux contributeurs2 notamment dans le monde académique par 
+            des instituts français d'enseignement supérieur et de recherche comme Inria3 et Télécom ParisTech. 
+            Elle comprend notamment des fonctions pour estimer des forêts aléatoires, des régressions logistiques, 
+            des algorithmes de classification, et les machines à vecteurs de support.</p>
+          <p><a class="btn btn-secondary" href="https://scikit-learn.org/stable/" role="button">En savoir plus &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>k-nearest neighbors</h2>
+          <img height="100h" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/03/knn3.png" alt="">
+          <br/>
+          <p>En intelligence artificielle, la méthode des k plus proches voisins est une méthode d’apprentissage supervisé. 
+            En abrégé k-NN ou KNN, de l'anglais k-nearest neighbors. Dans ce cadre, on dispose d’une base de données d'apprentissage 
+            constituée de N couples « entrée-sortie ». Pour estimer la sortie associée à une nouvelle entrée x, la méthode des k plus proches 
+            voisins consiste à prendre en compte (de façon identique) les k échantillons d'apprentissage dont l’entrée est la plus proche de la 
+            nouvelle entrée x, selon une distance à définir. </p>
+          <p><a class="btn btn-secondary" href="https://www.analyticsvidhya.com/blog/2018/03/introduction-k-neighbours-algorithm-clustering/" role="button">En savoir plus &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>Flask</h2>
+          <img src="https://cdn-images-1.medium.com/max/800/1*0G5zu7CnXdMT9pGbYUTQLQ.png" height="100vh" alt="">
+          <br/>
+          <p>Flask est un framework open-source de développement web en Python. Son but principal est d'être léger,
+             afin de garder la souplesse de la programmation Python, associé à un système de templates.</p>
+          <p><a class="btn btn-secondary" href="http://flask.pocoo.org/" role="button">En savoir plus &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Vincent Constantin - tout droit réservé - 2019</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>KNN</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- f4 -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+  <link href="{{url_for('static', filename='styles/style.css')}}" rel="stylesheet">
+
+
+  <script
+			  src="https://code.jquery.com/jquery-3.4.1.js"
+			  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script src="{{url_for('static', filename='scripts/papaparse.min.js')}}"></script>
+  <script src="{{url_for('static', filename='scripts/script.js')}}"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">K Nearest Neighbor</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h1 class="mt-5">Créez votre propre algorithme KNN</h1>
+        <p>
+          À partir d'un fichier csv, il vous sera possible de créé votre propre alorithe knn.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 offset-md-3 text-center">
+
+  <!-- remove temp 
+        <div class="card">
+          <div class="card-header">
+            Spécifications
+          </div>
+          <div clas="card-body">
+            <div class="form-group">
+              <label for="">Nombre de caractéristique</label>
+              <div>
+                <i class="fa fa-minus btn btn-info" aria-hidden="true" onclick="moinsQuantite('nbCar')"></i>
+                  <span class="quantite" type="text" id="nbCar" data-quantite="0">2</span>
+                <i class="fa fa-plus btn btn-info" aria-hidden="true" onclick="plusQuantite('nbCar')"></i>
+              </div>
+              <br/>
+            </div>
+            <div class="form-group">
+              <label for="">Nombre de classe</label>
+              <div>
+                <i class="fa fa-minus btn btn-info" aria-hidden="true" onclick="moinsQuantite('nbClasse')"></i>
+                  <span class="quantite" type="text" id="nbClasse" data-quantite="0">2</span>
+                <i class="fa fa-plus btn btn-info" aria-hidden="true" onclick="plusQuantite('nbClasse')"></i>
+              </div>
+              <br/>
+            </div>
+            <button type="button" class="btn btn-primary"><span class="fa fa-arrow-right" aria-hidden="true"></span> Poursuivre</button>
+            <br/>
+            <br/>
+          </div>
+        </div>
+-->
+
+
+        <div id="1" class="card">
+          <div class="card-header">Importer un csv</div>
+          <div class="card-body">
+              <form>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" accept=".csv" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choisir un fichier</label>
+                  </div>
+                  <br/><br/>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-check">
+                        <input class="form-check-input" checked="true" type="checkbox" id="gridCheck1">
+                        <label class="form-check-label" for="gridCheck1">
+                          Première ligne est titre
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                    <div class="col-sm-6 offset-3">
+                      <button id="Importer" type="button" class="btn btn-primary" onclick="lireCsv()"><span class="fa fa-arrow-right" aria-hidden="true" ></span> Importer</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>       
+
+      <div id="2" class="card hidden">
+        <div class="card-header">
+          Selection des caractéristiques
+        </div>
+        <div class="card-body">
+          <p> 1. Nommez les colonnes<br/>
+              2. Nommez la colonne contenant la classe : "target"<br/>
+              3. Selectionez les caractéristiques que vous voulez conserver pour la classification</p>
+              <div class="row">
+                  <div class="col-sm-3 offset-5">
+                    <button id="btnBuild" type="button" class="btn btn-primary" onclick="sendData()"><span class="fa fa-arrow-right" aria-hidden="true" ></span> Poursuivre</button>
+                  
+                    <br/><br/>
+
+                  </div>
+                  
+              </div>
+              <div class="row">
+                  <div id="loading" class="col-sm-6 alert alert-info" style="display: none" role="alert">
+                      <p>Cette opération peut prendre plusieurs minutes</p>
+                      <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                  <br/>
+              </div>
+          <div class="table-responsive" style="max-height: 400px;">
+              <table id="table" class="table">
+                <thead id="tableHead" class="thead-dark">
+      
+                </thead>
+                <tbody id="tableBody">
+      
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="3" class="card hidden">
+        <div class="card-header">
+          Classification
+        </div>
+        <div class="card-body">
+          <p> Votre model est complété<br/>
+          Vous pouvez maintenant classifier de nouvelles enregistrements<br/><br/></p>
+              <div class="row">
+                <form id="classifier">
+                  <div class="col-sm-6 offset-3" id="divTb">
+                    
+                  </div>
+                </form>
+
+              </div>
+              <br/><br/>
+              <div class="row">
+                <div id="alertSuccess" class="col-sm-6 alert alert-success" style="display: none" role="alert">
+                  <p id="resultSuccess"></p>
+                </div>
+                <div id="alertError" class="col-sm-6 alert alert-danger" style="display: none" role="alert">
+                    <p id="resultError"></p>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+  </script>
+
+</body>
+
+</html>
