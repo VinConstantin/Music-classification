@@ -176,6 +176,7 @@ function buildForm(data){
             input.type = "text"
             input.id = element
             input.name = element
+            input.style="min-width: 300px"
             input.className = "form-control"
             input.placeholder = element
             form.appendChild(input)

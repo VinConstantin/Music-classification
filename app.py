@@ -21,7 +21,13 @@ knnCustom = KNeighborsClassifier(n_neighbors=9)
 @app.route('/')
 @app.route('/index')
 def index():
+    return render_template('Home.html', title='À propos')
+
+
+@app.route('/Music')
+def Music():
     return render_template('index.html', title='Classification de musique')
+
 
 
 @app.route('/Custom')
