@@ -66,11 +66,12 @@ def trainModel(all_df):
     X = all_df[header]
     y = all_df.target
 
-    scaled_df = pd.DataFrame(X, columns=X.columns)
+    scaled_df = pd.DataFrame(X, columns=X.columns).fillna(0)
 
     X_train, X_test, y_train, y_test = train_test_split(scaled_df, y, test_size=0.2, random_state=3)
 
-    find_best_k(X_train, y_train, X_test, y_test, min_k=1, max_k=25)
+    k_best = find_best_k(X_train, y_train, X_test, y_test, min_k=1, max_k=25)
+    knnCustom = KNeighborsClassifier(n_neighbors = k_best)
 
     knnCustom.fit(X_train, y_train)
 
@@ -438,19 +439,20 @@ def find_best_k(X_train, y_train, X_test, y_test, min_k=1, max_k=25):
 
     print("Meilleur valeur de k: {}".format(best_k))
     print("F1-Score: {}".format(best_score))
+    return best_k
 
 
 # In[390]:
 
 
-find_best_k(X_train, y_train, X_test, y_test, min_k=1, max_k=25)
+best_k = find_best_k(X_train, y_train, X_test, y_test, min_k=1, max_k=25)
 
 # ##### Une valeur de k = 1 a été sélectionné pour le plus optimal
 
 # In[391]:
 
 
-knn = KNeighborsClassifier(n_neighbors=9)
+knn = KNeighborsClassifier(n_neighbors=best_k)
 knn.fit(X_train, y_train)
 preds = knn.predict(X_test)
 
